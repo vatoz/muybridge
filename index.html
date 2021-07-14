@@ -1,0 +1,104 @@
+<html  lang="cs" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<style>
+div{position:absolute; top:0px; left:0px; width:1920px;height:600px;}
+
+</style>
+<script type="text/javascript">
+var h1=0;
+var h2=0;
+var h3=0;
+var keypressed="q";
+
+function okd(event){
+  keypressed=keypressed+event.key ;
+  redraw();
+}
+function oku(event){
+  keypressed=keypressed.replaceAll(event.key,"");  
+  redraw();
+}
+function horse(i, j){
+  if(i==1){
+    h1=j;
+    
+  }else if(i==2){
+    h2=j;
+    
+    
+  }else{
+    h3=j;
+  }
+  
+}
+function analyze(minhorse, text){
+  
+  var s=1;
+  if (text==""){
+      horse(minhorse,0);horse(minhorse+1,0);horse(minhorse+2,0);
+      return 0;
+  }  
+  chars=["q","w","e","r","t","z","u","i","o","p","ú"];
+  
+  for(var s=0; s<chars.length; s++){
+    
+    if(text.search(chars[s])>=0){
+      console.log("found "+s);
+      horse(minhorse,s+1);
+      var k=text.replace(chars[s],"");
+      if(minhorse<3){
+        analyze(minhorse+1,k);
+        return 0;
+      }
+      
+    }
+    
+  }
+  
+  
+  
+    
+}
+function getimg(imgid){
+  if (imgid==0) return "";
+  if (imgid<10) return "url('image00"+imgid+ ".png')";
+   return "url('image0"+imgid+ ".png')";  
+}
+
+function redraw(){
+  var opa="1";
+  analyze(1,keypressed);
+  if(h2>0) opa="0.8";
+  if(h3>0) opa="0.7";
+  
+  
+  
+  document.getElementById('horse1').style.backgroundImage = getimg(h1);
+    document.getElementById('horse2').style.backgroundImage =  getimg(h2);
+    document.getElementById('horse3').style.backgroundImage =  getimg(h3);
+    
+    document.getElementById('horse1').style.opacity = opa;
+      document.getElementById('horse2').style.opacity =  opa;
+      document.getElementById('horse3').style.opacity =  opa;
+    
+  }
+  
+  
+  
+
+
+</script>
+</head><body onkeydown="okd(event)" onkeyup="oku(event)" >
+  
+
+
+<div id=horse3></div>
+<div id=horse2></div>
+<div id=horse1></div>
+Měly by fungovat klávesy qwertzuiopú, klidně 3 najednou. Chrome, firefox. Obrazovka 1920. Už z toho mě napadá, že vlastně senzorů bude potřeba víc než šířka obrazovky.  Aby mohl bejt vidět i zadek koně .
+Jdou opačným směrem, než bych v expozici čekal.
+
+
+
+</body>
